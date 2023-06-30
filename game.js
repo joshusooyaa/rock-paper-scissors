@@ -9,9 +9,13 @@ let computerWins = 0;
 
 const results = document.querySelector('.results');
 const buttons = document.querySelectorAll('.choices > button');
+// const score = document.querySelector(".score");
+const playerScores = document.querySelectorAll(".score .player-scores div");
+const userDiv = playerScores[0];
+const computerDiv = playerScores[1]; 
 
 buttons.forEach(button => {
-  button.addEventListener("click", startRound);
+  button.addEventListener("click", roundHandler);
 })
 
 
@@ -54,7 +58,7 @@ function playRound(playerChoice, computerChoice) {
 }
 
 
-function startRound() {
+function roundHandler() {
   let userChoice = this.classList.value;
   let computerChoice = getComputerChoice();
   let roundConclusion = playRound(userChoice, computerChoice);
@@ -65,8 +69,7 @@ function startRound() {
 
   roundConclusion == WIN ? userWins++ : computerWins++;
 
-  if (userWins >= MAX_WINS || computerWins >= MAX_WINS) 
-    console.log(userWins > computerWins ? "You win!" : "You lose!");
+  updateScoreUI();
 }
 
 /* Helper Functions*/
@@ -85,4 +88,37 @@ function loss(playerChoice, computerChoice) {
 
 function capitalizeFirstLetter(str) {
   str = str.replace(str[0], str[0].toUpperCase());
+}
+
+function updateScoreUI() {
+  if (userWins >= MAX_WINS || computerWins >= MAX_WINS) {
+    const winner = userWins >= MAX_WINS ? true : false;
+    const gameEnd = document.querySelector(".game-end");
+    const result = gameEnd.querySelector(".game-result");
+
+    if (winner) result.textContent = "You won!";
+    else result.textContent = "You lost!";
+
+    const playAgain = document.createElement("button");
+    playAgain.textContent = "Play again?";
+    playAgain.addEventListener("click", (e) => {
+      e.target.parentNode.classList.toggle("true");
+      gameEnd.removeChild(e.target);
+      result.textContent = "";
+    })
+
+    gameEnd.appendChild(playAgain);
+    gameEnd.classList.toggle("true");
+
+    userWins = 0;
+    computerWins = 0;
+  }
+  
+  const userH = userDiv.querySelector("h3");
+  const computerH = computerDiv.querySelector("h3");
+  const userP = userDiv.querySelector("p");
+  const computerP = computerDiv.querySelector("p");;
+
+  userP.textContent = `${userWins}`;
+  computerP.textContent = `${computerWins}`;
 }

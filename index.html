@@ -4,16 +4,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./game.js" defer></script>
 </head>
 <body>
-  <div class="game-end"></div>
-  <div class="curr-score"></div>
-  <div class="results"></div>
-  <div class="choices">
-    <button class="rock">Rock</button>
-    <button class="paper">Paper</button>
-    <button class="scissors">Scissors</button>
+  <div class="game">
+    <h1>Rock Paper Scissors</h1>
+    <div class="score">
+      <h2>Current Score</h2>
+      <div class="player-scores">
+        <div class="user">
+          <h3>Player Score</h3>
+          <p>0</p>
+        </div>
+        <div class="computer">
+          <h3>Computer Score</h3>
+          <p>0</p>
+        </div>
+      </div>
+    </div>
+    <div class="results"></div>
+    <div class="choices">
+      <button class="rock">Rock</button>
+      <button class="paper">Paper</button>
+      <button class="scissors">Scissors</button>
+    </div>
   </div>
-  <script src="./game.js"></script>
+  <div class="game-end">
+    <p class="game-result"></p>
+  </div>
 </body>
 </html>

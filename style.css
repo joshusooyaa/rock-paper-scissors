@@ -1,0 +1,65 @@
+body {
+  height: 100vh;
+  margin: 0;
+}
+
+.game-end.true {
+  position: fixed;
+  background-color: black;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.game-end .game-result {
+  color: white;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game h1 {
+  margin: 0 0 10px;
+}
+
+.game .score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score h2 {
+  margin: 0 0 10px;
+}
+
+.game .score .player-scores {
+  display: flex;
+  justify-content: space-between;
+}
+
+.game .score .player-scores div h3, p {
+  text-align: center;
+  width: 150px;
+  padding: 0 10px;
+  margin: 0;
+}
+
+.game .results {
+  margin: 15px 0;
+}
+
+.game .choices {
+  margin-top: 50px;
+}
