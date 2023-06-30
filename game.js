@@ -1,5 +1,19 @@
 const moveOptions = ["rock", "paper", "scissors"];
 const MAX_WINS = 3;
+const WIN = 1;
+const LOSS = 0;
+const TIE = -1;
+
+let userWins = 0;
+let computerWins = 0;
+
+const results = document.querySelector('.results');
+const buttons = document.querySelectorAll('.choices > button');
+
+buttons.forEach(button => {
+  button.addEventListener("click", startRound);
+})
+
 
 function getComputerChoice() {
   let moveIndex = Math.floor(Math.random() * 3); // Using math.floor tells us this picks 0-2
@@ -17,64 +31,56 @@ function playRound(playerChoice, computerChoice) {
   playerChoice = playerChoice.toLowerCase();
 
   if (playerChoice == computerChoice) {
-    return "Tie!";
+    results.textContent = "Tie!";
+    return TIE;
   }
 
   switch(playerChoice) {
     case "rock":
-      return computerChoice == "scissors" ? winMessage(playerChoice, computerChoice)
-                                          : lostMessage(playerChoice, computerChoice);
+      return computerChoice == "scissors" ? win(playerChoice, computerChoice)
+                                          : loss(playerChoice, computerChoice);
   
     case "paper":
-      return computerChoice == "rock" ? winMessage(playerChoice, computerChoice)
-                                      : lostMessage(playerChoice, computerChoice);
+      return computerChoice == "rock" ? win(playerChoice, computerChoice)
+                                      : loss(playerChoice, computerChoice);
     
     case "scissors":
-      return computerChoice == "paper" ? winMessage(playerChoice, computerChoice)
-                                       : lostMessage(playerChoice, computerChoice);
+      return computerChoice == "paper" ? win(playerChoice, computerChoice)
+                                       : loss(playerChoice, computerChoice);
     
     default:
-      return "You didn't pick a valid option, not sure how you did this.";
+      return LOSS; // They did something wrong so they should lose
   }
-
 }
 
 
-function game() {
-  let currentWins = 0; // This variable indicates how many wins the current winner has
-  let userWins = 0;
-  let computerWins = 0;
+function startRound() {
+  let userChoice = this.classList.value;
+  let computerChoice = getComputerChoice();
+  let roundConclusion = playRound(userChoice, computerChoice);
+  
+  console.log(roundConclusion);
 
-  while (currentWins < MAX_WINS) {
-    let userChoice = prompt("Rock, paper, or scissors?");
-    let computerChoice = getComputerChoice();
-    let roundConclusionString = playRound(userChoice, computerChoice);
-    
-    console.log(roundConclusionString);
+  if (roundConclusion == TIE) return;
 
-    if (roundConclusionString.includes("Tie")) {
-      continue;
-    }
+  roundConclusion == WIN ? userWins++ : computerWins++;
 
-    roundConclusionString.includes("won") ? userWins++ : computerWins++;
-    currentWins++;
-  }
-  console.log(userWins > computerWins ? "You win!" : "You lose!");
+  if (userWins >= MAX_WINS || computerWins >= MAX_WINS) 
+    console.log(userWins > computerWins ? "You win!" : "You lose!");
 }
-
-game();
-
 
 /* Helper Functions*/
-function winMessage(playerChoice, computerChoice) {
+function win(playerChoice, computerChoice) {
   playerChoice = playerChoice.replace(playerChoice[0], playerChoice[0].toUpperCase());
-  return `You won! ${playerChoice} beats ${computerChoice}.`;
+  results.textContent = `You won! ${playerChoice} beats ${computerChoice}.`;
+  return WIN;
 }
 
 
-function lostMessage(playerChoice, computerChoice) {
+function loss(playerChoice, computerChoice) {
   playerChoice = playerChoice.replace(playerChoice[0], playerChoice[0].toUpperCase());
-  return `You lost! ${playerChoice} loses to ${computerChoice}.`
+  results.textContent = `You lost! ${playerChoice} loses to ${computerChoice}.`
+  return LOSS;
 }
 
 function capitalizeFirstLetter(str) {
